@@ -1,0 +1,23 @@
+# Raw Kaggle data (large, not committed). Only test_data.csv at the repo root goes in.
+data/*
+!data/.gitkeep
+
+# Private course material and notes
+ML_Assignment_2_AIML_26Oct26.pdf
+assignment2_plan.md
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# Streamlit local secrets
+.streamlit/secrets.toml
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
