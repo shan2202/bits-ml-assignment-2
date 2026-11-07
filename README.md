@@ -68,7 +68,7 @@ This leaves **33 numeric features**. All of these steps work row by row with fix
 
 https://github.com/shan2202/bits-ml-assignment-2
 
-**Live Streamlit app:** TODO
+**Live Streamlit app:** https://2026aj05110-bits-ml-assignment-2.streamlit.app/
 
 ## d. Models used
 
