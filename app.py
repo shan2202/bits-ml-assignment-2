@@ -44,7 +44,7 @@ AXIS = "#c3c2b7"
 CM_CMAP = LinearSegmentedColormap.from_list("loan_blues", ["#cde2fb", "#6da7ec", "#1c5cab"])
 
 METRIC_HELP = {
-    "Accuracy": "Share of all borrowers classified correctly. Misleading here: the baseline of always predicting 'no default' already scores ~78%, and the arrow shows the difference from it.",
+    "Accuracy": "Share of all borrowers classified correctly. Misleading here: always predicting 'no default' already scores ~78%.",
     "AUC": "How well the model ranks defaulters above non-defaulters (0.5 = random, 1 = perfect).",
     "Precision": "Of the borrowers flagged as defaulters, the share who really defaulted.",
     "Recall": "Of the borrowers who really defaulted, the share the model caught.",
@@ -220,7 +220,6 @@ all_metrics, all_scores = evaluate_all(X, y)
 model = load_model(model_name)
 y_pred = model.predict(X)
 metrics = all_metrics.loc[model_name]
-majority_accuracy = (y == 0).mean()
 
 st.success(f"Loaded {len(data):,} rows: {int(y.sum()):,} defaults ({y.mean():.1%}).")
 
@@ -232,10 +231,7 @@ with tab_model:
     # Two rows of three, so the values are not cut off on narrower screens
     metric_cols = st.columns(3) + st.columns(3)
     for col, (label, value) in zip(metric_cols, metrics.items()):
-        delta = None
-        if label == "Accuracy":
-            delta = f"{value - majority_accuracy:+.4f} vs baseline"
-        col.metric(label, f"{value:.4f}", delta=delta, help=METRIC_HELP[label])
+        col.metric(label, f"{value:.4f}", help=METRIC_HELP[label])
 
     cm = confusion_matrix(y, y_pred, labels=[0, 1])
     tn, fp, fn, tp = cm.ravel()

@@ -111,7 +111,7 @@ The app (`app.py`) loads the five saved pipelines and evaluates them on an uploa
 
 - **Upload** a test CSV with the 33 feature columns and `loan_default` (the sidebar has a button to download `test_data.csv`). The file is checked for missing columns, empty or non-numeric values and a valid 0/1 target.
 - **Choose a model** from the dropdown.
-- **Selected-model tab:** the six metrics (accuracy is compared with always predicting "no default"), the confusion matrix with a plain-language summary, the classification report and the ROC curve.
+- **Selected-model tab:** the six metrics, the confusion matrix with a plain-language summary, the classification report and the ROC curve.
 - **Compare all models tab:** all six metrics for the five models, ROC curves on one chart and MCC per model.
 - **Predictions tab:** actual vs predicted label and score for every row, downloadable as CSV.
 
