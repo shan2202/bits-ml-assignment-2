@@ -85,7 +85,7 @@ def build_models():
                 ("clf", KNeighborsClassifier()),
             ]),
             {
-                "clf__n_neighbors": [5, 11, 21, 31, 51],
+                "clf__n_neighbors": [5, 11, 21, 31, 51, 101, 151],
                 "clf__weights": ["uniform", "distance"],
             },
             5,
@@ -100,7 +100,7 @@ def build_models():
                 ("scaler", StandardScaler()),
                 ("clf", GaussianNB()),
             ]),
-            {"clf__var_smoothing": np.logspace(-9, -1, 9)},
+            {"clf__var_smoothing": np.logspace(-9, 0, 10)},
             5,
         ),
         (
@@ -112,7 +112,7 @@ def build_models():
                 ("scaler", StandardScaler()),
                 ("clf", SVC(kernel="rbf", class_weight="balanced", cache_size=1000)),
             ]),
-            {"clf__C": [0.3, 1, 3]},
+            {"clf__C": [0.03, 0.1, 0.3, 1]},
             3,  # fewer folds: each RBF fit on 8,000+ rows takes a while
         ),
     ]
@@ -178,7 +178,11 @@ def main():
         test_metrics = compute_metrics(model, X_test, y_test)
         results[name] = test_metrics
 
-        best = {k.replace("clf__", ""): v for k, v in search.best_params_.items()}
+        # .item() turns numpy floats from np.logspace into plain numbers for printing
+        best = {
+            k.replace("clf__", ""): v.item() if hasattr(v, "item") else v
+            for k, v in search.best_params_.items()
+        }
         print(f"\n{name}  ({elapsed:.1f}s)")
         print(f"  best params: {best}  (CV AUC {search.best_score_:.4f})")
         # Train vs test gap shows over-fitting, e.g. a deep decision tree
