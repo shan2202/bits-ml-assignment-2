@@ -66,21 +66,33 @@ This leaves **33 numeric features**. All of these steps work row by row with fix
 
 ## c. GitHub repository link
 
-TODO
+https://github.com/shan2202/bits-ml-assignment-2
 
 **Live Streamlit app:** TODO
 
 ## d. Models used
 
+All five models are scikit-learn pipelines trained on the 12,000-row training split (`model/train_models.py`). Hyperparameters were chosen by stratified cross-validation on the training split only, using ROC AUC; `class_weight="balanced"` was used wherever the classifier supports it.
+
+| ML Model Name | Pipeline | Selected hyperparameters |
+|---|---|---|
+| Logistic Regression | StandardScaler + LogisticRegression (balanced) | C = 0.1 |
+| Decision Tree | DecisionTreeClassifier (balanced) | max_depth = 4, min_samples_leaf = 50 |
+| KNN | StandardScaler + KNeighborsClassifier | n_neighbors = 151, weights = distance |
+| Naive Bayes | StandardScaler + GaussianNB | var_smoothing = 1.0 |
+| Support Vector Machine | StandardScaler + SVC, RBF kernel (balanced) | C = 0.3 |
+
 ### Comparison table
+
+Evaluated on the held-out `test_data.csv` (3,000 rows, 21.7% default). Positive class = default (1). AUC uses predicted probabilities, or the decision function for the SVM.
 
 | ML Model Name | Accuracy | AUC | Precision | Recall | F1 | MCC |
 |---|---|---|---|---|---|---|
-| Logistic Regression | | | | | | |
-| Decision Tree | | | | | | |
-| KNN | | | | | | |
-| Naive Bayes | | | | | | |
-| Support Vector Machine | | | | | | |
+| Logistic Regression | 0.5730 | 0.6251 | 0.2816 | 0.6237 | 0.3880 | 0.1507 |
+| Decision Tree | 0.4920 | 0.5987 | 0.2598 | 0.7250 | 0.3825 | 0.1286 |
+| KNN | 0.7827 | 0.6008 | 0.0000 | 0.0000 | 0.0000 | -0.0096 |
+| Naive Bayes | 0.6807 | 0.5964 | 0.2871 | 0.3180 | 0.3017 | 0.0957 |
+| Support Vector Machine | 0.5673 | 0.6192 | 0.2774 | 0.6190 | 0.3831 | 0.1419 |
 
 ### Observations
 
