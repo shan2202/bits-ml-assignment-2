@@ -229,7 +229,8 @@ tab_model, tab_compare, tab_predictions = st.tabs(
 )
 
 with tab_model:
-    metric_cols = st.columns(6)
+    # Two rows of three, so the values are not cut off on narrower screens
+    metric_cols = st.columns(3) + st.columns(3)
     for col, (label, value) in zip(metric_cols, metrics.items()):
         delta = None
         if label == "Accuracy":
